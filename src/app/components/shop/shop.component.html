@@ -1,0 +1,10 @@
+<div class="container" fxLayout="column-row" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px"
+  fxLayoutGap.xs="0">
+  <h2>Our Products</h2>
+  <ul >
+    <li *ngFor="let p of products" (click)="onSelectProduct()">
+      <span>{{p.id}}</span> {{p.name}}
+    </li>
+  </ul>
+
+</div>
