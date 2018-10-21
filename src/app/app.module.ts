@@ -6,24 +6,22 @@ import { CustomMaterialModule } from './shared/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { TubsService } from './shared/services/tubs.service';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-// import { FormComponent } from './components/form/form.component';
 
-import { NgxNewstickerAlbeModule } from 'ngx-newsticker-albe';
-import { CartComponent } from './components/cart/cart.component';
+// import { NgxNewstickerAlbeModule } from 'ngx-newsticker-albe';
 import { HomeComponent } from './components/home/home.component';
-import { ShopComponent } from './components/shop/shop.component';
 import { AppRoutingModule } from './shared/app-routing/app-routing.module';
+import { ProductListComponent } from './components/products/product-list/product-list.component';
+import { ProductEditorComponent } from './components/product-editor/product-editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // FormComponent,
-    CartComponent,
     HomeComponent,
-    ShopComponent
+    ProductListComponent,
+    ProductEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -32,10 +30,10 @@ import { AppRoutingModule } from './shared/app-routing/app-routing.module';
     FlexLayoutModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxNewstickerAlbeModule,
+    // NgxNewstickerAlbeModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [TubsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

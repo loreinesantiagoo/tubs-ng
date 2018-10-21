@@ -1,0 +1,35 @@
+<div fxLayoutAlign="start right" fxLayoutGap="60px" fxLayout="row" fxLayout.xs="column" fxFlexFill>
+  <form [formGroup]="newProduct" (ngSubmit)="createProduct()"
+  flexLayout >
+  <label>
+    Product Name:
+    <input type="text" formControlName="productName" required>
+  </label>
+  
+  <label>
+    Quantity:
+    <input type="number" formControlName="quantity" required>
+  </label>
+
+  <label>
+    Cost Price:
+    <input type="number" formControlName="costPrice" required>
+  </label>
+
+  <label>
+    Unit Price:
+    <input type="number" formControlName="unitPrice" required>
+  </label>
+
+  <p>
+    <button type="submit" [disabled]="!newProduct.valid" mat-button mat-button-raised>Add Product</button>
+  </p>
+</form>
+<div>
+
+</div>
+
+<p>
+  Form status: {{ newProduct.status }}
+</p>
+</div>

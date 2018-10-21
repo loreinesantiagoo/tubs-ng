@@ -1,6 +1,14 @@
 .example-fill-remaining-space {
-    flex: 1 1 auto;
+    flex: 2 2 auto;
   }
 mat-toolbar {
   color: transparent;
+}
+img {
+  width: 170px;
+  height: 60px;
+}
+
+h1 {
+  color: rgb(38, 156, 224);
 }

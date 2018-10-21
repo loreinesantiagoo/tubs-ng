@@ -1,50 +1,63 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { ProductsConfig } from '../../shared/model';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
+import { Product } from '../model';
 
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Authorization': 'my-auth-token'
-  }
-  )
-};
 
 @Injectable({
   providedIn: 'root'
 })
 export class TubsService {
 
-  configUrl = 'assets/config.json';
+  // variable
+  products: string[];
+  product = '';
+
+
+  searchCriteria = {
+    'offset': 0,
+    'limit': 10,
+    'keyword': ''
+  };
+  db: any;
 
   constructor(private http: HttpClient) { }
 
-  getAllProducts() {
-    console.log('service received!');
-    return this.http.get<ProductsConfig>(this.configUrl)
-      .pipe(
-        retry(3),
-        catchError(this.handleError)
+  getProducts(): Observable<any> {
+    console.log('getting products data from api>>>');
+    return this.http
+    .get(`${environment.api_url}${this.product}`)
+    .pipe(
+      catchError(this.handleError('getAllProducts', []))
       );
   }
 
-  getConfigResponse(): Observable<HttpResponse<ProductsConfig>> {
-    return this.http.get<ProductsConfig>(
-      this.configUrl, { observe: 'response' });
-  }
+  // createProduct(data: Product) {
+  //   this.http.createProduct().push(data);
+  // }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occured:', error.error.message);
-    } else {
-      console.error(`Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    return throwError(
-      'Something bad happened; please try again later.');
+  // getProductById(key: string) {
+  //   this.http.getProductById().object('products/' + key);
+  //   return this.product;
+  // }
+
+  // updateProduct(data: Product) {
+  //   this.http.updateProduct().update(data.$key, data);
+  // }
+
+  // deleteProduct(key: string) {
+  //   this.http.deleteProduct().remove(key);
+  // }
+
+
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 }

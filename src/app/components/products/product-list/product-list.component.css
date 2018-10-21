@@ -1,0 +1,10 @@
+.example-card {
+    max-width: 400px;
+  }
+  
+  .example-header-image {
+    background-size: cover;
+  }
+  .mat-icon {
+    color: rgb(31, 105, 218);
+  }
