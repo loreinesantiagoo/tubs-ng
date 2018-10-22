@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TubsService } from './shared/services/tubs.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +9,7 @@ import { TubsService } from './shared/services/tubs.service';
 export class AppComponent implements OnInit {
   title = 'tubs';
 
-  constructor(private tubsSvc: TubsService) {}
+  constructor( private http: HttpClient) {}
 
   ngOnInit() {
 

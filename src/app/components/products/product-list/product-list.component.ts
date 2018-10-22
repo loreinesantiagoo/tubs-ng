@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { TubsService } from 'src/app/shared/services/tubs.service';
+import { Product } from '../../.././shared/model';
+import { map, catchError } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-product-list',
@@ -7,12 +12,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductListComponent implements OnInit {
   productName: string;
-  products = ['tubs bidet seat-D', 'tubs bidet seat-O', 'tubs bidet seat-V'];
+  productsArr: Product[];
 
-  allProducts = this.products[0];
-  constructor() { }
+  constructor(private tubsSvc: TubsService) { }
 
   ngOnInit() {
+    this.getAllProducts();
   }
-
+  getAllProducts() {
+    const P = this.tubsSvc.getProducts();
+      P
+      .subscribe(result => {
+        console.log(result);
+        this.productsArr = result;
+      }),
+      // .pipe(
+      // map(res => res['payload']),
+      // catchError(err => {
+      //   console.log('caught mapping error and rethrowing', err);
+      //   return throwError(err);
+      // }),
+      catchError(err => {
+        console.log('caught rethrown error, providing fallback value');
+        return of([]);
+      });
+    // );
+  }
 }
+

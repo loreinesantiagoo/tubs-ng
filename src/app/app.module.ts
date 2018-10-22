@@ -14,14 +14,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './shared/app-routing/app-routing.module';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
-import { ProductEditorComponent } from './components/product-editor/product-editor.component';
+import { ProductEditorComponent } from './components/products/product-editor/product-editor.component';
+import { MatFileUploadModule } from 'angular-material-fileupload';
+import { SearchPipeComponent } from './components/search-pipe/search-pipe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ProductListComponent,
-    ProductEditorComponent
+    ProductEditorComponent,
+    SearchPipeComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,8 @@ import { ProductEditorComponent } from './components/product-editor/product-edit
     ReactiveFormsModule,
     HttpClientModule,
     // NgxNewstickerAlbeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatFileUploadModule,
   ],
   providers: [TubsService],
   bootstrap: [AppComponent]

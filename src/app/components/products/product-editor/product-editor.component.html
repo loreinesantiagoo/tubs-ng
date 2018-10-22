@@ -1,0 +1,33 @@
+<div fxLayoutAlign="start right" fxLayoutGap="60px" fxLayout="row" fxLayout.xs="column" fxFlexFill>
+  <form [formGroup]="newProduct" (ngSubmit)="createProduct()" flexLayout>
+    <div class="form-container">
+      <mat-form-field>
+        <input matInput type="text" formControlName="productName" placeholder="Product Name" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="number" formControlName="quantity" placeholder="Quantity" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="number" formControlName="costPrice" placeholder="Cost Price" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="number" formControlName="unitPrice" placeholder="Unit Price" required>
+      </mat-form-field>
+    </div>
+
+    <input type="file" [fileUploadInputFor]="fileUploadQueue">
+    <mat-file-upload-queue #fileUploadQueue [fileAlias]="'img'" [httpUrl]="uploadAPI">
+      <mat-file-upload [file]="file" (onUpload)="doneUpload($event)" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
+    </mat-file-upload-queue>
+    <hr>
+    <p>
+      <button type="submit" [disabled]="!newProduct.valid" mat-button mat-button-raised>Add Product</button>
+    </p>
+  </form>
+  <div>
+
+  </div>
+</div>

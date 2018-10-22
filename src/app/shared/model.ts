@@ -1,6 +1,9 @@
 export class Product {
-    $key: string;
+    productId: string;
+    date_added: Date;
     productName: string;
-    productPrice: number;
-    productImage: string;
+    quantity: number;
+    cost_price: number;
+    unit_price: number;
+    product_image: string;
 }

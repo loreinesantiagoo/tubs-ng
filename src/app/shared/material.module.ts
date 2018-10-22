@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+
 import {
     MatAutocompleteModule,
     MatBadgeModule,
@@ -35,7 +36,7 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTreeModule
+    MatTreeModule,
 } from '@angular/material';
 
 import { PlatformModule } from '@angular/cdk/platform';

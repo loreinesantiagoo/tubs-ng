@@ -16,33 +16,35 @@ export class TubsService {
   products: string[];
   product = '';
 
+  uploadAPI = environment.uploadUrl;
+  currentUploadURL: string;
 
-  searchCriteria = {
-    'offset': 0,
-    'limit': 10,
-    'keyword': ''
-  };
-  db: any;
 
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<any> {
     console.log('getting products data from api>>>');
     return this.http
-    .get(`${environment.api_url}${this.product}`)
+    .get(`${environment.api_url}`)
     .pipe(
+      retry(3),
       catchError(this.handleError('getAllProducts', []))
       );
   }
 
-  // createProduct(data: Product) {
-  //   this.http.createProduct().push(data);
-  // }
+  saveProduct(p): Observable<any> {
+    console.log('posting new product');
+    return this.http.post<Product>( `${environment.api_url}${this.uploadAPI}`, p)
+    .pipe(
+      catchError(this.handleError('add new product', this.product))
+    );
+  }
 
-  // getProductById(key: string) {
-  //   this.http.getProductById().object('products/' + key);
-  //   return this.product;
-  // }
+  getProductByName(key: string): Observable<any> {
+    const params = new HttpParams().set('', );
+    return this.http
+      .get(`${environment.api_url}/name`, { params: params});
+  }
 
   // updateProduct(data: Product) {
   //   this.http.updateProduct().update(data.$key, data);
