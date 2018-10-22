@@ -4,7 +4,8 @@ import { TubsService } from 'src/app/shared/services/tubs.service';
 // import { MatSnackBar } from '@angular/material';
 import { Product } from '../../../shared/model';
 import { environment } from 'src/environments/environment.prod';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { resetApplicationState } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-product-editor',
@@ -16,6 +17,10 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
   currentUploadURL: string;
 
   renderHtml: String;
+
+  message: string;
+  subscription: Subscription;
+
 
   newProduct = new FormGroup({
     productName: new FormControl('', Validators.required),
@@ -31,7 +36,8 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
   constructor(private tubsSvc: TubsService) { }
 
   ngOnInit() {
-    this.createProduct();
+    this.subscription = this.tubsSvc.getProducts()
+      .subscribe((message: string) => this.message = message);
   }
 
   createProduct() {
@@ -53,9 +59,9 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
     };
     this.tubsSvc.saveProduct(p).subscribe((result) => {
       console.log('snack bar!');
-      // const snackBarRef = this.snackBar.open('Product Added');
+     // const snackBarRef = this.snackBar.open('Product Added');
     });
-    // console.log(newProductForm.value);
+    this.newProduct.reset();
     // this.renderHtml = newProductForm.value;
   }
 
@@ -72,7 +78,7 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
     // }
   }
 
-  ngOnDestroy() {
-
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -17,15 +17,15 @@
         <input matInput type="number" formControlName="unitPrice" placeholder="Unit Price" required>
       </mat-form-field>
     </div>
-
+   
+    <p>
+      <button type="submit" [disabled]="!newProduct.valid" (click)="createProduct()"mat-button mat-button-raised>Add Product</button>
+    </p>
+     <hr>
     <input type="file" [fileUploadInputFor]="fileUploadQueue">
-    <mat-file-upload-queue #fileUploadQueue [fileAlias]="'img'" [httpUrl]="uploadAPI">
+    <mat-file-upload-queue #fileUploadQueue [fileAlias]="'photos'" [httpUrl]="uploadAPI">
       <mat-file-upload [file]="file" (onUpload)="doneUpload($event)" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
     </mat-file-upload-queue>
-    <hr>
-    <p>
-      <button type="submit" [disabled]="!newProduct.valid" mat-button mat-button-raised>Add Product</button>
-    </p>
   </form>
   <div>
 

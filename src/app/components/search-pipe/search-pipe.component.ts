@@ -12,10 +12,10 @@ export class SearchPipeComponent implements OnInit {
   searchTerm$ = new Subject<string>();
 
   constructor(private searchSvc: SeacrhService) {
-    this.searchSvc.search(this.searchTerm$)
-    .subscribe(results => {
-      this.results = results.results;
-    });
+    // this.searchSvc.search(this.searchTerm$)
+    // .subscribe(results => {
+    //   this.results = results;
+    // });
    }
 
   ngOnInit() {

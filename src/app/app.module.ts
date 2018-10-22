@@ -15,7 +15,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './shared/app-routing/app-routing.module';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
 import { ProductEditorComponent } from './components/products/product-editor/product-editor.component';
-import { MatFileUploadModule } from 'angular-material-fileupload';
+import { MatFileUploadModule } from '../app/matfileUpload/matFileUpload.module';
 import { SearchPipeComponent } from './components/search-pipe/search-pipe.component';
 
 @NgModule({

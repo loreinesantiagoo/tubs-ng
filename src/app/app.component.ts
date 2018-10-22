@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TubsService } from './shared/services/tubs.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,9 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   title = 'tubs';
 
-  constructor( private http: HttpClient) {}
 
-  ngOnInit() {
+  constructor( private tubsSvc: TubsService) {}
 
-  }
+  ngOnInit() { }
+
 }

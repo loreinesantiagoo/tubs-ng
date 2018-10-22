@@ -34,17 +34,17 @@ export class TubsService {
 
   saveProduct(p): Observable<any> {
     console.log('posting new product');
-    return this.http.post<Product>( `${environment.api_url}${this.uploadAPI}`, p)
+    return this.http.post<Product>( `${environment.api_url}`, p)
     .pipe(
       catchError(this.handleError('add new product', this.product))
     );
   }
 
-  getProductByName(key: string): Observable<any> {
-    const params = new HttpParams().set('', );
-    return this.http
-      .get(`${environment.api_url}/name`, { params: params});
-  }
+  // getProductByName(): Observable<any> {
+  //   const params = new HttpParams().set('', );
+  //   return this.http
+  //     .get(`${environment.api_url}/name`, { params: params});
+  // }
 
   // updateProduct(data: Product) {
   //   this.http.updateProduct().update(data.$key, data);
