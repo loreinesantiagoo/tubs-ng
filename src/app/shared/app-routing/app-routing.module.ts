@@ -4,13 +4,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../../components/home/home.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { ProductListComponent } from '../../components/products/product-list/product-list.component';
-import { ProductEditorComponent } from 'src/app/components/products/product-editor/product-editor.component';
+import { AddProductComponent } from '../../components/products/add-product/add-product.component';
+import { ProductDetailComponent } from '../../components/products/product-detail/product-detail.component';
+import { SearchPipeComponent } from 'src/app/components/search-pipe/search-pipe.component';
+import { PageNotFoundComponent } from 'src/app/components/page-not-found/page-not-found.component';
 
 const route: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'add-product', component: AddProductComponent },
+  { path: 'search-product', component: SearchPipeComponent },
+  { path: 'products/:id', component: ProductDetailComponent },
   { path: 'products', component: ProductListComponent },
-  { path: 'product-editor', component: ProductEditorComponent },
+  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  // { path: '**', component: PageNotFoundComponent }
 
 ];
 

@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output } from '@angular/core';
 import { TubsService } from 'src/app/shared/services/tubs.service';
 import { MatSnackBar } from '@angular/material';
 import { Subscription, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Product } from '../../../shared/model';
-
+import { Product } from '../../../shared/product-model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -13,35 +13,34 @@ import { Product } from '../../../shared/model';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
 
+  product: Product;
   productsArr: Product[];
   message: string;
   subscription: Subscription;
 
-  constructor(private tubsSvc: TubsService) { }
+  constructor(private tubsSvc: TubsService, private router: Router,
+    private snackSvc: MatSnackBar) { }
 
   ngOnInit() {
     this.getAllProducts();
     this.subscription = this.tubsSvc.getProducts()
-      .subscribe((message: string) => this.message = message);
+      .subscribe((message) => message );
+
   }
-  getAllProducts() {
-    const P = this.tubsSvc.getProducts();
-    P
+  getAllProducts(): void {
+    this.tubsSvc.getProducts()
       .subscribe(result => {
         console.log(result);
         this.productsArr = result;
       });
-    // .pipe(
-    // map(res => res['payload']),
-    // catchError(err => {
-    //   console.log('caught mapping error and rethrowing', err);
-    //   return throwError(err);
-    // }),
     catchError(err => {
       console.log('caught rethrown error, providing fallback value');
       return of([]);
     });
-    // );
+  }
+  onEdit(idValue) {
+    console.log(idValue);
+    this.router.navigate([`/products/${idValue}`]);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

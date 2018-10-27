@@ -1,29 +1,35 @@
+<div class="search-pipe">
+    <div flexLayout fxLayoutAlign="start center" flexLayout="row" flexLayout.xs="column" class="search-pipe">
+        <app-search-pipe></app-search-pipe>
+    </div>
+</div>
+<hr>
 <div>
     <h2>products list</h2>
 
-    <div  flexLayout="row" flexLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="20px"  fxLayout.xs="column" fxFlexFill>
-        <div  *ngFor="let product of productsArr">
-            <mat-card class="example-card" >
-                <img mat-card-image src="http://localhost:3000/api/products" alt="product photo">
-                <mat-card-header>
-                    <mat-card-title>{{ product.product_name }}</mat-card-title>
-                    <!-- <mat-card-subtitle>D-shape</mat-card-subtitle> -->
-                </mat-card-header>
+    <div flexLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="20px" class="container" fxFlexFill>
+
+        <div class="item" *ngFor="let product of productsArr">
+
+            <mat-card class="example-card">
+                    <img mat-card-image src="" alt="product photo">
+                
+                <a routerLink="{{product.id}}">
+                    <mat-card-header>
+                        <mat-card-title>{{ product.product_data.productName }}</mat-card-title>
+                    </mat-card-header>
+                </a>
                 <mat-card-content>
-                    <p><!-- product description -->
-                        S${{ product.unit_price }}
-                    </p>
+                    <!-- product description -->
+                    <span>S${{ product.product_data.unit_price }}</span>
+                    <div>
+                        product id: {{product.id}}
+                    </div>
+
                 </mat-card-content>
+                
                 <mat-card-actions>
-                    <button mat-button>
-                        <mat-icon>add_shopping_cart</mat-icon>
-                    </button>
-                    <button mat-button>
-                        <mat-icon>favorite</mat-icon>
-                    </button>
-                    <!-- <button *ngIf="user = admin"  (click)="editProduct()" mat-button>
-                        edit
-                    </button> -->
+                    <button mat-button mat-button-raised (click)="onEdit(product.id)">Edit </button>
                 </mat-card-actions>
             </mat-card>
         </div>

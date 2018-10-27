@@ -1,5 +1,10 @@
 <div flexLayout="row" flexLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="20px" fxLayout.xs="column"
     fxFlexFill>
     <h1>this is home page !</h1>
-    
+    <div>
+        <div *ngFor="let alert of alerts" class="{{ cssClass(alert) }} alert-dismissable">
+            {{alert.message}}
+            <a class="close" (click)="removeAlert(alert)">&times;</a>
+       </div>
+    </div>
 </div>

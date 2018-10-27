@@ -32,7 +32,7 @@ import { startWith } from 'rxjs/operators';
 
     }
 
-    isUploading:boolean = false;
+    isUploading: boolean = false;
 
 
 
@@ -51,7 +51,7 @@ import { startWith } from 'rxjs/operators';
     } = new HttpParams();
 
     @Input()
-    fileAlias: string = "file";
+    fileAlias: string = 'file';
 
     @Input()
     get file(): any {
@@ -74,9 +74,9 @@ import { startWith } from 'rxjs/operators';
     @Output() removeEvent = new EventEmitter<MatFileUpload>();
     @Output() onUpload = new EventEmitter();
 
-    progressPercentage: number = 0;
-    public loaded: number = 0;
-    total: number = 0;
+    progressPercentage: number;
+    public loaded: number;
+    total: number;
     _file: any;
     _id: number;
     fileUploadSubscription: any;
@@ -88,10 +88,10 @@ import { startWith } from 'rxjs/operators';
       formData.set(this.fileAlias, this._file, this._file.name);
       this.fileUploadSubscription = this.HttpClient.post(this.httpUrl, formData, {
         headers: this.httpRequestHeaders,
-        observe: "events",
+        observe: 'events',
         params: this.httpRequestParams,
         reportProgress: true,
-        responseType: "json"
+        responseType: 'json'
       }).subscribe((event: any) => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progressPercentage = Math.floor( event.loaded * 100 / event.total );
@@ -116,7 +116,7 @@ import { startWith } from 'rxjs/operators';
     }
 
     ngOnDestroy() {
-      console.log('file '+ this._file.name + ' destroyed...');
+      console.log('file ' + this._file.name + ' destroyed...');
     }
 
 }
@@ -161,7 +161,7 @@ export class MatFileUploadQueue implements OnDestroy {
   } = new HttpParams();
 
   @Input()
-  fileAlias: string = "file";
+  fileAlias: string = 'file';
 
   ngAfterViewInit() {
     // When the list changes, re-subscribe

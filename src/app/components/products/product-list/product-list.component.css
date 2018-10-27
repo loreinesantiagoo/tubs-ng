@@ -8,3 +8,19 @@
   .mat-icon {
     color: rgb(31, 105, 218);
   }
+
+  .search-pipe {
+    padding: 5px, 5px;
+    margin-top: auto;
+  }
+  .container {
+    display: flex; /* flex or inline-flex */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .item {
+    align-self: auto;
+  }

@@ -1,0 +1,32 @@
+<div *ngIf="product"  flexLayout fxLayoutAlign="start right" fxLayoutGap="60px" fxLayout="row" fxLayout.xs="column" fxFlexFill>
+    <h1>Products Details</h1>
+    <h3>id: {{product.product.id}}</h3>
+
+    <form [formGroup]="existingProductForm" (ngSubmit)="updateP()"   flexLayout>
+        <mat-form-field class="container">  
+                <input matInput type="text" formControlName="productName" 
+                    required>{{product.product_data.productName}}
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput type="number" formControlName="quantity" placeholder="Quantity" required>           
+        </mat-form-field>
+
+           
+        <mat-form-field>
+            <input matInput type="number" formControlName="costPrice" placeholder="Cost Price" required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput type="number" formControlName="unitPrice" placeholder="Unit Price" required>
+        </mat-form-field>
+
+        <button mat-button mat-button-raised type="submit" [disabled]="!existingProductForm.valid" (click)="updateP()">update</button>
+        <button  title="delete product" (click)="onDelete(product)">x</button>
+    </form>
+
+    <hr>
+    <button (click)="goBack()">go back</button>
+
+</div>
+     

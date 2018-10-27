@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { SeacrhService } from '../../shared/services/seacrh.service';
+import {
+  debounceTime, distinctUntilChanged, switchMap
+} from 'rxjs/operators';
+import { Product } from '../../shared/product-model';
 
 @Component({
   selector: 'app-search-pipe',
@@ -8,17 +12,27 @@ import { SeacrhService } from '../../shared/services/seacrh.service';
   styleUrls: ['./search-pipe.component.css']
 })
 export class SearchPipeComponent implements OnInit {
-  results: Object;
-  searchTerm$ = new Subject<string>();
+  products$: Observable<Product[]>;
+  private searchTerms = new Subject<string>();
 
-  constructor(private searchSvc: SeacrhService) {
-    // this.searchSvc.search(this.searchTerm$)
-    // .subscribe(results => {
-    //   this.results = results;
-    // });
-   }
+  constructor(private searchSvc: SeacrhService) {  }
 
-  ngOnInit() {
+  // Push a search term into the observable stream.
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+
+  ngOnInit(): void {
+    this.products$ = this.searchTerms.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => this.searchSvc.searchProducts(term)),
+    );
   }
 
 }
