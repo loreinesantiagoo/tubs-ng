@@ -30,7 +30,7 @@ export class TubsService {
     console.log('posting new product');
     return this.http.post<Product>(this.ProductRootApiUrl, p, httpOptions)
       .pipe(
-        catchError(this.handleError('add new product error', this.product))
+        catchError(this.handleError('add new product error', p))
       );
   }
 
@@ -47,7 +47,7 @@ export class TubsService {
   public getProductById(idValue): Observable<any> {
     console.log('>>>>getProductById');
     return this.http
-      .get<EditProduct>(`${this.ProductRootApiUrl}/${idValue}`)
+      .get(`${this.ProductRootApiUrl}/${idValue}`)
       .pipe(
         map(products => products[0]),
         catchError(this.handleError('get product by id error'))

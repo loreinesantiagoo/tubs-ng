@@ -20,9 +20,9 @@ export interface DialogData {
 })
 export class ProductDetailComponent implements OnInit {
   products: EditProduct[];
-  product: EditProduct;
-  message: string;
-  subscription: Subscription;
+  product: Product;
+  // message: string;
+  // subscription: Subscription;
 
 
   existingProductForm = new FormGroup({
@@ -54,11 +54,11 @@ export class ProductDetailComponent implements OnInit {
 
   getOneProductById() {
     const Id = this.route.snapshot.paramMap.get('id');
-    console.log(Id);
+    console.log(Id, this.product);
     return this.tubsSvc.getProductById(Id)
       .subscribe((result) => {
         console.log(result);
-        this.existingProductForm.patchValue({
+        this.existingProductForm.setValue({
           id: result.Id,
           productName: result.productName,
           quantity: result.quantity,
@@ -66,22 +66,23 @@ export class ProductDetailComponent implements OnInit {
           unitPrice: result.unit_price,
           product_image: result.product_image
         });
-        this.product = this.product;
+        this.product = result;
       });
   }
 
   updateP(idValue): void {
     console.log(idValue);
-    this.router.navigate([`/product/${idValue}`]);
-    // const productObj: EditProduct = {
-    // id: this.product.id,
-    //   productName: this.existingProductForm.get('productName'.value),
-    //   quantity: this.existingProductForm.get('quantity'.value),
-    //   cost_price: this.existingProductForm.get('cost_price'.value),
-    //   unit_price: this.existingProductForm.get('unit_price'.value),
-    //   product_image: this.existingProductForm.get('product_image'.value)
-    //  };
-    this.tubsSvc.updateProduct(idValue).subscribe((result) => {
+    this.router.navigate([`/products/${idValue}`]);
+    const productObj: EditProduct = {
+      id: this.product.id,
+      date_edited: new Date(),
+      productName: this.existingProductForm.get('productName'.value),
+      quantity: this.existingProductForm.get('quantity'.value),
+      cost_price: this.existingProductForm.get('cost_price'.value),
+      unit_price: this.existingProductForm.get('unit_price'.value),
+      product_image: this.existingProductForm.get('product_image'.value)
+    };
+    this.tubsSvc.updateProduct(productObj).subscribe((result) => {
       const snackBarRef = this.snackSvc.open('Product Updated', 'Done', { duration: 3000 });
       console.log('snack bar!');
       this.goBack();
