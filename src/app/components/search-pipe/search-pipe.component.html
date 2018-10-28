@@ -7,7 +7,7 @@
 
     <ul class="search-result">
       <li *ngFor="let p of products$ | async">
-        <a routerLink="search-products/{{p.product_data.productName}}">
+        <a routerLink="{{p.product_data.productName}}">
           {{p.product_data.productName}}
         </a>
       </li>

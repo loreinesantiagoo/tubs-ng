@@ -19,6 +19,8 @@ import { AddProductComponent } from '../app/components/products/add-product/add-
 import { ProductDetailComponent } from './components/products/product-detail/product-detail.component';
 import { AlertComponent } from './app/_directives/alert/alert.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     AddProductComponent,
     ProductDetailComponent,
     AlertComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
