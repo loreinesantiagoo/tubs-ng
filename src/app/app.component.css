@@ -1,0 +1,46 @@
+.example-fill-remaining-space {
+    flex: 2 2 auto;
+  }
+mat-toolbar {
+  color: transparent;
+}
+img {
+  width: 160px;
+  height: 50px;
+}
+
+h1 {
+  color: rgb(38, 156, 224);
+  font-size: 1.2em;
+  margin-bottom: 0;
+
+}
+h2 {
+  font-size: 2em;
+  margin-top: 0;
+  padding-top: 0;
+}
+nav a {
+  padding: 5px 10px;
+  text-decoration: none;
+  display: inline-block;
+  background-color: rgb(230, 230, 230);
+  border-radius: 2px;
+}
+nav a:visited, a:link {
+  color: #3d6acc;
+}
+nav a:hover {
+  color: #0da8f5;
+  background-color: #c4d4db;
+}
+nav a.active {
+  color: #0ba5f1;
+}
+.container {
+  display: flex; /* flex or inline-flex */
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}

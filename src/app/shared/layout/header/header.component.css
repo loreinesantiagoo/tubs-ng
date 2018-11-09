@@ -1,0 +1,45 @@
+.example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. 
+    Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+}
+
+::ng-deep .mat-toolbar{
+    z-index: 999;
+    position: fixed
+}
+
+.example-icon {
+    padding: 0 14px;
+  }
+  
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.router-link {
+    color: white;
+}
+
+.paddingDiv:focus {
+    outline: 0;
+}
+img {
+    width: 160px;
+    height: 50px;
+}
+  
+h1 {
+    color: rgb(38, 156, 224);
+    font-size: 1.2em;
+    margin-bottom: 0;
+  
+}
+a {
+    text-decoration: none;
+}
+h2 {
+    font-size: 2em;
+    margin-top: 0;
+    padding-top: 0;
+}

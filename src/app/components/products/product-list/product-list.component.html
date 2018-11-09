@@ -1,0 +1,37 @@
+<div class="search-pipe">
+    <div flexLayout fxLayoutAlign="start center" flexLayout="row" flexLayout.xs="column" class="search-pipe">
+        <app-search-pipe></app-search-pipe>
+    </div>
+</div>
+<hr>
+<div>
+    <h2>products list</h2>
+
+    <div flexLayout.xs="column" fxLayoutAlign="start center" fxLayoutGap="20px" class="container" fxFlexFill>
+
+        <div class="item" *ngFor="let product of productsArr">
+
+            <mat-card class="example-card">
+                    <img mat-card-image src="" alt="product photo">
+                
+                <a routerLink="{{product.id}}">
+                    <mat-card-header>
+                        <mat-card-title>{{ product.product_data.productName }}</mat-card-title>
+                    </mat-card-header>
+                </a>
+                <mat-card-content>
+                    <!-- product description -->
+                    <span>S${{ product.product_data.unit_price }}</span>
+                    <!-- <div>
+                        product id: {{product.id}}
+                    </div> -->
+
+                </mat-card-content>
+                
+                <mat-card-actions>
+                    <button mat-button mat-button-raised (click)="onEdit(product.id)">Edit </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
