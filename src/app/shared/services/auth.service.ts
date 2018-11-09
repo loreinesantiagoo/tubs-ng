@@ -73,7 +73,7 @@ export class AuthService {
     this._storageService.remove('firebaseIdToken');
     this.afAuth.auth.signOut();
     this.authInfo$.next(AuthService.UNKNOWN_USER);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/products']);
   }
 
 

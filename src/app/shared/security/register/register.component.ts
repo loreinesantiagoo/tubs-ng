@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
     const registerUser: User = {
       email: email,
       password: confirmPassword,
-      fullName
+      fullName: fullName
     };
     /// first hash to the server side
     if (this.registrationForm.valid) {
