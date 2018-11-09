@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder, NgForm } from '@angular/forms';
 import { TubsService } from 'src/app/shared/services/tubs.service';
 // import { MatSnackBar } from '@angular/material';
+<<<<<<< HEAD
 import { Product } from '../../../shared/models/product-model';
+=======
+import { Product } from '../../../shared/product-model';
+>>>>>>> 78bbaeccf20e64a3f6511741abea31c00a1f58df
 import { environment } from 'src/environments/environment.prod';
 import { Observable, Subscription } from 'rxjs';
 

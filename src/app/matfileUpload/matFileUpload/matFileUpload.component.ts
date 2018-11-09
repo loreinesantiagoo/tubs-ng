@@ -8,22 +8,27 @@ import { startWith } from 'rxjs/operators';
  * A material design file upload component.
  */
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'mat-file-upload',
     templateUrl: `./matFileUpload.component.html`,
     exportAs: 'matFileUpload',
+    // tslint:disable-next-line:use-host-property-decorator
     host: {
       'class': 'mat-file-upload',
     },
     styleUrls: ['./matFileUploadQueue.scss'],
   })
+  // tslint:disable-next-line:component-class-suffix
   export class MatFileUpload implements OnDestroy {
 
     constructor(
+      // tslint:disable-next-line:no-shadowed-variable
       private HttpClient: HttpClient
-      ,@Inject(forwardRef(() => MatFileUploadQueue)) private matFileUploadQueue: MatFileUploadQueue
+      ,
+      @Inject(forwardRef(() => MatFileUploadQueue)) private matFileUploadQueue: MatFileUploadQueue
     ) {
 
-        if(matFileUploadQueue) {
+        if (matFileUploadQueue) {
           this.httpUrl = matFileUploadQueue.httpUrl || this.httpUrl;
           this.httpRequestHeaders = matFileUploadQueue.httpRequestHeaders || this.httpRequestHeaders;
           this.httpRequestParams = matFileUploadQueue.httpRequestParams || this.httpRequestParams;
@@ -32,13 +37,13 @@ import { startWith } from 'rxjs/operators';
 
     }
 
-    isUploading: boolean = false;
+    isUploading = false;
 
 
 
     /* Http request input bindings */
     @Input()
-    httpUrl: string = 'http://localhost:8080';
+    httpUrl = 'http://localhost:8080';
 
     @Input()
     httpRequestHeaders: HttpHeaders | {
@@ -51,7 +56,7 @@ import { startWith } from 'rxjs/operators';
     } = new HttpParams();
 
     @Input()
-    fileAlias: string = 'file';
+    fileAlias = 'file';
 
     @Input()
     get file(): any {
@@ -72,6 +77,7 @@ import { startWith } from 'rxjs/operators';
 
     /** Output  */
     @Output() removeEvent = new EventEmitter<MatFileUpload>();
+    // tslint:disable-next-line:no-output-on-prefix
     @Output() onUpload = new EventEmitter();
 
     progressPercentage: number;
@@ -84,7 +90,7 @@ import { startWith } from 'rxjs/operators';
     public upload(): void {
       this.isUploading = true;
       // How to set the alias?
-      let formData = new FormData();
+      const formData = new FormData();
       formData.set(this.fileAlias, this._file, this._file.name);
       this.fileUploadSubscription = this.HttpClient.post(this.httpUrl, formData, {
         headers: this.httpRequestHeaders,
@@ -125,10 +131,12 @@ import { startWith } from 'rxjs/operators';
  * A material design file upload queue component.
  */
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'mat-file-upload-queue',
   templateUrl: `matFileUploadQueue.component.html`,
   exportAs: 'matFileUploadQueue',
 })
+// tslint:disable-next-line:component-class-suffix
 export class MatFileUploadQueue implements OnDestroy {
 
   @ContentChildren(forwardRef(() => MatFileUpload)) fileUploads: QueryList<MatFileUpload>;
@@ -161,8 +169,9 @@ export class MatFileUploadQueue implements OnDestroy {
   } = new HttpParams();
 
   @Input()
-  fileAlias: string = 'file';
+  fileAlias = 'file';
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     // When the list changes, re-subscribe
     this._changeSubscription = this.fileUploads.changes.pipe(startWith(null)).subscribe(() => {
@@ -184,7 +193,7 @@ export class MatFileUploadQueue implements OnDestroy {
   }
 
   public uploadAll() {
-    this.fileUploads.forEach((fileUpload) => { fileUpload.upload() });
+    this.fileUploads.forEach((fileUpload) => { fileUpload.upload(); });
   }
 
   public removeAll() {

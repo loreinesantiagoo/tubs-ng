@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+<<<<<<< HEAD
 import { Product } from '../models/product-model';
+=======
+import { Product } from '../product-model';
+>>>>>>> 78bbaeccf20e64a3f6511741abea31c00a1f58df
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

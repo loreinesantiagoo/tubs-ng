@@ -11,7 +11,6 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -44,7 +43,7 @@ export class TubsService {
   public getProductById(idValue): Observable<any> {
     console.log('>>>>getProductById');
     return this.http
-      .get(this.ProductRootApiUrl)
+      .get(`${this.ProductRootApiUrl}/${idValue}`)
       .pipe(
         map(products => products[0]),
         catchError(this.handleError('get product by id error'))
