@@ -54,6 +54,9 @@ export class LoginComponent implements OnInit {
   loginGoogle() {
     this.authSvc.loginWithGoogle();
   }
+  loginFacebook() {
+    this.authSvc.loginWithFacebook();
+  }
 
   navigateToRegister() {
     this.router.navigate(['/register']);

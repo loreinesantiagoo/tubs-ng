@@ -4,9 +4,10 @@ import { MatSnackBar, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/
 import { Subscription, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Product, EditProduct } from '../../../shared/models/product-model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DialogData } from '../product-detail/product-detail.component';
 import { Location } from '@angular/common';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -14,23 +15,45 @@ import { Location } from '@angular/common';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  products: EditProduct[];
-  product: Product;
+  product: EditProduct[];
+
+  products$: Observable<Product[]>;
   productsArr: Product[];
+  productSortOrder: boolean;
+
   message: string;
   subscription: Subscription;
 
   constructor(private tubsSvc: TubsService,
     private router: Router,
+    private route: ActivatedRoute,
+    private authSvc: AuthService,
     private snackSvc: MatSnackBar,
     public dialog: MatDialog,
     private location: Location
-    ) { }
+  ) {
+    // this.route.params.subscribe(params => {
+    //   console.log('PARAMS' + params);
+    //   console.log('RESET ID' + params.resetId);
+    //   if (typeof (params.resetId) !== 'undefined') {
+    //     this.authSvc.isResetIdValid(params.resetId).subscribe((result) => {
+    //       console.log(result);
+    //       if (result.exist) {
+    //         this.router.navigate([`/resetChangePassword/${params.resetId}`]);
+    //       } else {
+    //         this.router.navigate(['/products']);
+    //       }
+    //     });
+    //   } else {
+    //     this.router.navigate(['/products']);
+    //   }
+    // });
+  }
 
   ngOnInit() {
     this.getAllProducts();
     this.subscription = this.tubsSvc.getProducts()
-      .subscribe((message) => message );
+      .subscribe((message) => message);
 
   }
   getAllProducts(): void {
@@ -38,40 +61,40 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         console.log(result);
         this.productsArr = result;
+        // this.sortProduct(p => p.date_added, 'DESC');
       });
     catchError(err => {
       console.log('caught rethrown error, providing fallback value');
       return of([]);
     });
   }
+
+  sortProduct<T>(prop: (c: Product) => T, order: 'ASC' | 'DESC'): void {
+    this.productsArr.sort((a, b) => {
+      if (prop(a) < prop(b)) {
+        return -1;
+      }
+      if (prop(a) > prop(b)) {
+        return 1;
+      }
+      return 0;
+    });
+    if (order === 'DESC') {
+      this.productsArr.reverse();
+      this.productSortOrder = true;
+    } else {
+      this.productSortOrder = false;
+    }
+  }
   onEdit(idValue) {
     console.log(idValue);
     this.router.navigate([`/products/${idValue}`]);
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  onDelete(idValue, productName): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '250px',
-      data: { id: idValue, productName: productName }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      if (typeof (result) !== 'undefined') {
-        this.tubsSvc.deleteProduct(idValue)
-          .subscribe(() => {
-            this.products = this.products;
-            this.goBack();
-          });
-        const snackBarRef = this.snackSvc.open('Product Deleted', 'Done', {
-          duration: 3000
-        });
-      }
-    });
-    console.log('deleting product');
-  }
+
   goBack(): void {
     this.location.back();
   }

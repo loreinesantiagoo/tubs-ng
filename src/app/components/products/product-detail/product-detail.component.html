@@ -21,9 +21,11 @@
             <input matInput type="number" formControlName="unitPrice" placeholder="Unit Price" required>
         </mat-form-field>
 
-        <button mat-button mat-button-raised type="submit" [disabled]="!existingProductForm.valid" (click)="updateP()">update</button>
-        <button  title="delete product" (click)="onDelete(product)">x</button>
-    </form>
+        <!-- <div *ngIf="user == admin">
+                <button mat-button mat-button-raised type="submit" [disabled]="!existingProductForm.valid" (click)="updateP()">update</button>
+                <button  title="delete product" (click)="onDelete(product)">x</button>        
+        </div> -->
+         </form>
 
     <hr>
     <button (click)="goBack()">go back</button>

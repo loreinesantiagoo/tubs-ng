@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { catchError, distinctUntilChanged } from 'rxjs/operators';
 import { AuthInfo } from '../models/auth-info';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-localstorage';
+import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import { User } from '../models/user';
 
@@ -18,8 +18,8 @@ export class AuthService {
   authInfo$: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(AuthService.UNKNOWN_USER);
   authState: any = null;
 
-  private registerRootApiUrl = `/register`;
-  private loginRootApiUrl = `/login`;
+  // private registerRootApiUrl = `/register`;
+  // private loginRootApiUrl = `/login`;
 
   private currentUserSubject = new BehaviorSubject<User>({} as User);
   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
@@ -33,6 +33,23 @@ export class AuthService {
     this.afAuth.authState.subscribe((auth) => {
       console.log(auth);
       this.authState = auth;
+    });
+  }
+  loginWithFacebook() {
+    return new Promise<any>((resolve, reject) => {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      provider.addScope('profile');
+      provider.addScope('email');
+      this.afAuth.auth
+        .signInWithPopup(provider)
+        .then(res => {
+          this.updateUserData();
+          resolve(res);
+        }, err => {
+          console.log(err);
+          reject(err);
+        }
+        );
     });
   }
   loginWithGoogle() {
@@ -69,15 +86,17 @@ export class AuthService {
         catchError(this.handleError('login with email error', AuthInfo))
       );
   }
+
+
   logout() {
     this._storageService.remove('firebaseIdToken');
-    this.afAuth.auth.signOut();
+    this.afAuth.auth.signOut().then(result => this.destroyToken());
     this.authInfo$.next(AuthService.UNKNOWN_USER);
     this.router.navigate(['/products']);
   }
 
 
-// firebase promise to subject to observable
+  // firebase promise to subject to observable
   fromFirebaseAuthPromise(promise): Observable<any> {
     const subject = new Subject<any>();
     promise
@@ -107,7 +126,7 @@ export class AuthService {
     });
   }
 
-  getIdToken(): String {
+  getToken(): String {
     return window.localStorage['firebaseToken'];
   }
 

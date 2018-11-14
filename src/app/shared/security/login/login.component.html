@@ -1,33 +1,31 @@
-<div class="container">
-    <div *ngIf="afAuth.user | async as user; else showLogin">
-        <h1>Hello {{ user.displayName }}!</h1>
+<div class="item" flexLayout fxLayoutAlign="center center">
+    <!-- *ngIf="afAuth.user | async as user; else showLogin" -->
+    <div >
+        <!-- <h1>Hello {{ user.displayName }}!</h1> -->
         <button (click)="logout()">Logout</button>
     </div>
     <ng-template #showLogin>
-        <mat-toolbar class="main-toolbar">
-            <mat-toolbar-row>
-                <span>Please Login.</span>
-                <span class="example-spacer"></span>
-            </mat-toolbar-row>
-        </mat-toolbar>
+        Please Login
         <br>
         <mat-grid-list cols="3">
             <mat-grid-tile colspan="2" rowspan="1">
                 <div>
                     <form class="example-form" [formGroup]="loginForm">
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="example-full-width" appearance="outline">
                             <input matInput placeholder="email" formControlName="email">
                         </mat-form-field>
-                        <mat-form-field class="example-full-width">
+                        <mat-form-field class="example-full-width" appearance="outline">
                             <input matInput type="password" placeholder="password" formControlName="password">
                         </mat-form-field>
                     </form>
-                    <button mat-raised-button color="accent" (click)="onSubmit()">Login</button>
+                    <button mat-raised-button color="primary" (click)="onSubmit()">Login</button>
                 </div>
             </mat-grid-tile>
 
             <button mat-button color="primary" (click)="loginGoogle()"><i class="fab fa-google-plus fa-3x"></i>&nbsp;
                 Login with Google</button>
+            <button mat-button color="primary" (click)="loginFacebook()"><i class="fab fa-facebook fa-3x"></i>&nbsp;
+                Login with Facebook</button>
 
             <div>
                 <p>No account yet? <a (click)="navigateToRegister()">Create an account</a></p>

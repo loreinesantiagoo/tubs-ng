@@ -1,44 +1,64 @@
-<mat-toolbar>
+<mat-toolbar flexLayout flexLayout="row" fxLayoutAlign="start center"  flexLayout.xs="column" >
   <mat-toolbar-row>
-    <a routerLink="/home"><img src="../assets/tubs-logo.png" alt="tubs"></a>
-    <span class="example-spacer"></span>
+    <a routerLink="/products"><img src="../assets/tubs-logo.png" alt="tubs"></a>
+  
+<!-- afAuth.user | async as user else showLogout -->
+    <span *ngIf=""> &nbsp; I am login !</span>
+    <ng-template #showLogout>
+      <span> &nbsp; I am logout !</span>
+    </ng-template>
 
-    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <span class="example-spacer"></span>
+    
+
+    <button mat-icon-button [matMenuTriggerFor]="logoutMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
 
-    <mat-menu #appMenu="matMenu">
+    <mat-menu #logoutMenu="matMenu">
       <ng-template matMenuContent>
-        <button *appShowAuthed="false" mat-menu-item (click)="navigateToRegister()">
+        <button mat-menu-item (click)="navigateToRegister()">
           <!-- <mat-icon>note_add</mat-icon> -->
           <span>Register</span>
         </button>
 
-        <button *appShowAuthed="false" mat-menu-item (click)="navigateToLogin()">
+        <button mat-menu-item (click)="navigateToLogin()">
           <!-- <mat-icon>person_pin</mat-icon> -->
           <span>Login</span>
         </button>
 
-        <button *appShowAuthed="false" mat-menu-item (click)="navigateToResetPassword()">
+        <button mat-menu-item (click)="navigateToProductsList()">
+          <mat-icon>local_mall</mat-icon>
+          <span>Products</span>
+        </button>
+
+      </ng-template>
+
+      <!-- template for logged in -->
+      <ng-template #loginMenu>
+        <button mat-menu-item (click)="navigateToResetPassword()">
           <!-- <mat-icon>change_history</mat-icon> -->
           <span>Reset Password</span>
         </button>
 
-        <button *appShowAuthed="true" mat-menu-item (click)="navigateToAddProduct()">
+        <button mat-menu-item (click)="navigateToAddProduct()">
           <!-- <mat-icon>add</mat-icon> -->
           <span>Add Product</span>
         </button>
 
-        <button *appShowAuthed="true" mat-menu-item (click)="navigateToChangePassword()">
+        <button mat-menu-item (click)="navigateToChangePassword()">
           <!-- <mat-icon>star</mat-icon> -->
           <span>Change Password</span>
         </button>
 
-        <button *appShowAuthed="true" mat-menu-item (click)="logout()">
+        <button mat-menu-item (click)="logout()">
           <!-- <mat-icon>logout</mat-icon> -->
           <span>Logout</span>
         </button>
+
       </ng-template>
     </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<router-outlet></router-outlet>

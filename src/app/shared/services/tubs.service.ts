@@ -11,6 +11,10 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+const params = new HttpParams()
+  .set('orderBy', '"$key"')
+  .set('limitToFirst', '1');
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,7 +39,8 @@ export class TubsService {
 
   public getProducts(): Observable<Product[]> {
     console.log('getting products data from api>>>');
-    return this.http.get(this.ProductRootApiUrl)
+    return this.http
+    .get(this.ProductRootApiUrl, params )
     .pipe(
       catchError(this.handleError('getting products list error'))
     );

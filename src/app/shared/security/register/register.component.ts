@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material';
 import { PasswordValidation } from '../../validation/password-match';
 import { User } from '../../models/user';
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
