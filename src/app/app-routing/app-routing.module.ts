@@ -14,18 +14,21 @@ import { UserComponent } from '../shared/security/user/user.component';
 
 import { NoAuthGuard } from '../shared/services/guards/NoAuthGuard';
 import { AuthGuardService } from '../shared/services/guards/auth-guard.service';
+import { AdminGuard } from '../shared/services/guards/admin.guard';
+import { CanReadGuard } from '../shared/services/guards/can-read.guard';
+
 
 const route: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuard] },
-  { path: 'user', component: UserComponent, canActivate: [AuthGuardService] }, // resolve: { data: UserResolver}
+  { path: 'register', component: RegisterComponent },
+  { path: 'users', component: UserComponent }, // resolve: { data: UserResolver}
 
   { path: 'products', component: ProductListComponent },
-  { path: 'search-product', component: SearchPipeComponent  },
+  { path: 'search-product', component: SearchPipeComponent },
 
-  { path: 'add-product', component: AddProductComponent },
-  { path: 'products/:id', component: ProductDetailComponent },
+  { path: 'add-product', component: AddProductComponent, canActivate: [AdminGuard] },
+  { path: 'products/edit/:id', component: ProductDetailComponent, canActivate: [CanReadGuard] },
 
   { path: '**', component: ProductListComponent }
 

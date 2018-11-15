@@ -26,20 +26,27 @@ export class TubsService {
   product: EditProduct;
 
   uploadAPI = environment.uploadUrl;
+  // selectedFile: File = null;
+
   currentUploadURL: string;
 
   productObservable: Observable<Product[]>;
 
-  constructor(private http: ApiService) { }
+  constructor(private apiSvc: ApiService) { }
 
+  // uploadFile() {
+  //   const fd = new FormData;
+  //   fd.append('image', this.selectedFile, this.selectedFile.name);
+  //   return this.apiSvc.post(this.uploadAPI, this.selectedFile);
+  // }
   addProduct(p): Observable<any> {
     console.log('posting new product');
-    return this.http.post(this.ProductRootApiUrl, p);
+    return this.apiSvc.post(this.ProductRootApiUrl, p);
   }
 
   public getProducts(): Observable<Product[]> {
     console.log('getting products data from api>>>');
-    return this.http
+    return this.apiSvc
     .get(this.ProductRootApiUrl, params )
     .pipe(
       catchError(this.handleError('getting products list error'))
@@ -47,7 +54,7 @@ export class TubsService {
   }
   public getProductById(idValue): Observable<any> {
     console.log('>>>>getProductById');
-    return this.http
+    return this.apiSvc
       .get(`${this.ProductRootApiUrl}/${idValue}`)
       .pipe(
         map(products => products[0]),
@@ -56,7 +63,7 @@ export class TubsService {
   }
 
   updateProduct(p): Observable<EditProduct> {
-    return this.http
+    return this.apiSvc
       .put(this.ProductRootApiUrl, p)
       .pipe(
         catchError(this.handleError<EditProduct>('updating product error'))
@@ -64,7 +71,7 @@ export class TubsService {
   }
 
   deleteProduct(idValue): Observable<EditProduct> {
-    return this.http
+    return this.apiSvc
       .delete(`${this.ProductRootApiUrl}/${idValue}`)
       .pipe(
         catchError(this.handleError<Product>('deleting product error'))

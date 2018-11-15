@@ -1,27 +1,30 @@
+<br> <br> <br> <br> <br>
 <div flexLayout fxLayoutAlign="start right" fxLayoutGap="60px" fxLayout="row" fxLayout.xs="column" fxFlexFill>
   <form [formGroup]="newProduct" (ngSubmit)="createProduct()">
     <div class="form-container">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput type="text" formControlName="productName" placeholder="Product Name" minlength="3" required>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput type="number" formControlName="quantity" placeholder="Quantity" min="1" required>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput type="number" formControlName="costPrice" placeholder="Cost Price" min="1" required>
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput type="number" formControlName="unitPrice" placeholder="Unit Price" min="1" required>
       </mat-form-field>
-    </div>
 
+
+    </div>
     <p>
-      <button type="submit" [disabled]="!newProduct.valid" mat-button mat-button-raised>Add Product</button>
+      <button type="submit" [disabled]="!newProduct.valid" (click)="onUpload()" mat-button mat-button-raised>Add Product</button>
     </p>
-    <hr>
+
+
     <input type="file" [fileUploadInputFor]="fileUploadQueue">
     <mat-file-upload-queue #fileUploadQueue [fileAlias]="'photos'" [httpUrl]="uploadAPI">
       <mat-file-upload [file]="file" (onUpload)="doneUpload($event)" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>

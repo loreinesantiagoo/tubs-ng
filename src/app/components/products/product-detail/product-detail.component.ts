@@ -7,6 +7,8 @@ import { Subscription, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { User } from 'src/app/shared/models/user';
 
 export interface DialogData {
   Id: string;
@@ -21,8 +23,9 @@ export interface DialogData {
 export class ProductDetailComponent implements OnInit {
   products: EditProduct[];
   product: Product;
-  // message: string;
-  // subscription: Subscription;
+  user: User;
+  message: string;
+  subscription: Subscription;
 
 
   existingProductForm = new FormGroup({
@@ -35,11 +38,13 @@ export class ProductDetailComponent implements OnInit {
     return this.existingProductForm.get('formModel');
   }
   setValue() {
-    this.existingProductForm.setValue({ formModel: this.product });
+    this.existingProductForm.patchValue({ formModel: this.product });
+    console.log('setVlaue');
   }
 
 
   constructor(private tubsSvc: TubsService,
+    private authSvc: AuthService,
     public dialog: MatDialog,
     private snackSvc: MatSnackBar,
     private router: Router,
@@ -47,24 +52,25 @@ export class ProductDetailComponent implements OnInit {
     private location: Location, private el: ElementRef) { }
 
   ngOnInit() {
+    this.authSvc.user$.subscribe(user => this.user = user);
     this.getOneProductById();
-    // this.subscription = this.tubsSvc.getProducts()
-    //   .subscribe((message: string) => this.message = message);
+    this.subscription = this.tubsSvc.getProducts()
+      .subscribe((message: any) => this.message = message);
   }
 
   getOneProductById() {
     const Id = this.route.snapshot.params.id;
-    console.log(Id, this.product);
+    console.log(Id, this.existingProductForm);
     return this.tubsSvc.getProductById(Id)
       .subscribe((result) => {
         console.log(result);
-        this.existingProductForm.setValue({
+        this.existingProductForm.patchValue({
           id: result.Id,
-          productName: result.productName,
-          quantity: result.quantity,
-          costPrice: result.cost_price,
-          unitPrice: result.unit_price,
-          product_image: result.product_image
+          // productName: result.productName,
+          // quantity: result.quantity,
+          // costPrice: result.cost_price,
+          // unitPrice: result.unit_price,
+          // product_image: result.product_image
         });
         this.product = result;
       });
@@ -72,22 +78,27 @@ export class ProductDetailComponent implements OnInit {
 
   updateP(idValue): void {
     console.log(idValue);
-    this.router.navigate([`/products/${idValue}`]);
-    // const productObj: EditProduct = {
-      // id: this.product.id,
-      // date_edited: new Date(),
-      // productName: this.existingProductForm.get('productName'.value),
-      // quantity: this.existingProductForm.get('quantity'.value),
-      // cost_price: this.existingProductForm.get('cost_price'.value),
-      // unit_price: this.existingProductForm.get('unit_price'.value),
-      // product_image: this.existingProductForm.get('product_image'.value)
-    // };
-    this.tubsSvc.updateProduct(idValue).subscribe((result) => {
-      const snackBarRef = this.snackSvc.open('Product Updated', 'Done', { duration: 3000 });
-      console.log('snack bar!');
-      this.goBack();
-    });
-    console.log('updating product');
+    if (this.authSvc.canEdit(this.user)) {
+      this.router.navigate([`/products/${idValue}`]);
+      const productObj: EditProduct = {
+        id: this.product.id,
+        date_edited: new Date(),
+        productName: this.existingProductForm.get('productName').value,
+        quantity: this.existingProductForm.get('quantity').value,
+        cost_price: this.existingProductForm.get('cost_price').value,
+        unit_price: this.existingProductForm.get('unit_price').value,
+        product_image: this.existingProductForm.get('product_image').value
+      };
+      this.tubsSvc.updateProduct(idValue).subscribe((result) => {
+        const snackBarRef = this.snackSvc.open('Product Updated', 'Done', { duration: 3000 });
+        console.log('snack bar!');
+        this.goBack();
+      });
+      console.log('updating product');
+    } else {
+      console.error('you are not allowed to do that!');
+    }
+
   }
 
   onDelete(idValue, productName): void {

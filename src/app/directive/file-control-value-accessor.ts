@@ -6,7 +6,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     selector: 'input[type=file]',
     // tslint:disable-next-line:use-host-property-decorator
     host: {
-        'change' : 'onChane($event.target.files)',
+        'change' : 'onChange($event.target.files)',
         '(blur)' : 'onTouched()'
     },
     providers: [

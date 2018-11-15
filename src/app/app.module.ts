@@ -66,7 +66,7 @@ import { UserComponent } from './shared/security/user/user.component';
     AppRoutingModule,
     MatFileUploadModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  providers: [ // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AngularFirestore],
   bootstrap: [AppComponent]
 })

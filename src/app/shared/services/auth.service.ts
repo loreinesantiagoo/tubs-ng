@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { catchError, distinctUntilChanged } from 'rxjs/operators';
+import { Observable, Subject, BehaviorSubject, ReplaySubject, of } from 'rxjs';
+import { catchError, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AuthInfo } from '../models/auth-info';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-localstorage';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
-import { User } from '../models/user';
+import { User, Roles } from '../models/user';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 
 @Injectable({
@@ -18,59 +19,91 @@ export class AuthService {
   authInfo$: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(AuthService.UNKNOWN_USER);
   authState: any = null;
 
-  // private registerRootApiUrl = `/register`;
-  // private loginRootApiUrl = `/login`;
-
   private currentUserSubject = new BehaviorSubject<User>({} as User);
   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
 
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
+  user$: Observable<User>;
+  roles: Roles;
 
   constructor(private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
     private _storageService: LocalStorageService,
     private router: Router) {
-    this.afAuth.authState.subscribe((auth) => {
-      console.log(auth);
-      this.authState = auth;
-    });
-  }
-  loginWithFacebook() {
-    return new Promise<any>((resolve, reject) => {
-      const provider = new firebase.auth.FacebookAuthProvider();
-      provider.addScope('profile');
-      provider.addScope('email');
-      this.afAuth.auth
-        .signInWithPopup(provider)
-        .then(res => {
-          this.updateUserData();
-          resolve(res);
-        }, err => {
-          console.log(err);
-          reject(err);
+    //// Get auth data, then get firestore user document || null
+    this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          // signed in
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+        } else {
+          // not signed in
+          return of(null);
         }
-        );
-    });
+      }))
+      .subscribe((user) => {
+        console.log(user);
+        this.authInfo$.next(user);
+      });
   }
+  // loginWithFacebook() {
+  //   return new Promise<any>((resolve, reject) => {
+  //     const provider = new firebase.auth.FacebookAuthProvider();
+  //     provider.addScope('profile');
+  //     provider.addScope('email');
+  //     this.afAuth.auth
+  //       .signInWithPopup(provider)
+  //       .then(res => {
+  //         this.updateUserData();
+  //         resolve(res);
+  //       }, err => {
+  //         console.log(err);
+  //         reject(err);
+  //       }
+  //       );
+  //   });
+  // }
+
   loginWithGoogle() {
-    return new Promise<any>((resolve, reject) => {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      provider.addScope('profile');
-      provider.addScope('email');
-      this.afAuth.auth
-        .signInWithPopup(provider)
-        .then(res => {
-          this.updateUserData();
-          resolve(res);
-        }, err => {
-          console.log(err);
-          reject(err);
-        }
-        );
-    });
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('profile');
+    provider.addScope('email');
+    return this.oAuthLogin(provider);
   }
-  private updateUserData() {
+
+
+  oAuthLogin(provider) {
+    return this.afAuth.auth
+      .signInWithPopup(provider)
+      .then((credential) => {
+        this.updateUserData(credential.user);
+        // resolve(res);
+      }, err => {
+        console.log(err);
+        // reject(err);
+      });
+  }
+
+
+  //// Update user data ////
+
+  /// updates database with user info after login
+  /// only runs if user role is not already defined in database
+  private updateUserData(authData) {
     console.log('call backend end point to update userdata....');
+    // Sets user data to firestore on login
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${authData.uid}`);
+
+    const data: User = {
+      uid: authData.uid,
+      email: authData.email,
+      fullName: authData.fullName,
+      // photoURL: user.photoURL,
+      roles: { reader: true }
+    };
+
+    return userRef.set(data, { merge: true });
   }
 
 
@@ -87,14 +120,39 @@ export class AuthService {
       );
   }
 
-
   logout() {
     this._storageService.remove('firebaseIdToken');
     this.afAuth.auth.signOut().then(result => this.destroyToken());
     this.authInfo$.next(AuthService.UNKNOWN_USER);
-    this.router.navigate(['/products']);
+    this.router.navigate(['/login']);
+  }
+  ///// Abilities and Roles Auth //////
+  ////// Assign Roles to an ability method //////
+  canRead(user: User): boolean {
+    const allowed = ['admin', 'editor', 'subscriber'];
+    return this.checkAuth(user, allowed);
+  }
+  canEdit(user: User): boolean {
+    const allowed = ['admin', 'editor'];
+    return this.checkAuth(user, allowed);
+  }
+  canDelete(user: User): boolean {
+    const allowed = ['admin'];
+    return this.checkAuth(user, allowed);
   }
 
+  // determines if user has matching role
+  private checkAuth(user: User, allowedRoles: string[]): boolean {
+    if (!user) {
+      return false;
+      for (const role of allowedRoles) {
+        if (user.roles[role]) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
 
   // firebase promise to subject to observable
   fromFirebaseAuthPromise(promise): Observable<any> {

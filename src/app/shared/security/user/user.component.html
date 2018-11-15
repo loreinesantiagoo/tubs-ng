@@ -1,3 +1,27 @@
-<p>
-  user works!
-</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div *ngIf="authSvc.user | async ; then authenticated else guest;">
+
+</div>
+
+<!-- user not logged in -->
+<ng-template #guest>
+  <h3>howdy, GUEST</h3>
+  <p>Login to get started...</p>
+
+  <button (click)="navigateToLogin()"></button>
+</ng-template>
+
+<!-- user LOGGED in -->
+<ng-template #authenticated>
+  <div *ngIf="authSvc.user | async ;">
+    <h3>Howdy, {{ user.fullName }}</h3>
+    <div>
+      <button (click)="authSvc.logout()">logout</button>
+    </div>
+  </div>
+</ng-template>

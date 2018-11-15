@@ -3,32 +3,32 @@
     <h3>id: {{product.product.id}}</h3>
 
     <form [formGroup]="existingProductForm" (ngSubmit)="updateP()"   flexLayout>
-        <mat-form-field class="container">  
+        <mat-form-field class="container" appearance="outline">  
                 <input matInput type="text" formControlName="productName" 
                     required>{{product.product_data.productName}}
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field appearance="outline">
             <input matInput type="number" formControlName="quantity" placeholder="Quantity" required>           
         </mat-form-field>
 
            
-        <mat-form-field>
+        <mat-form-field appearance="outline">
             <input matInput type="number" formControlName="costPrice" placeholder="Cost Price" required>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field appearance="outline">
             <input matInput type="number" formControlName="unitPrice" placeholder="Unit Price" required>
         </mat-form-field>
 
-        <!-- <div *ngIf="user == admin">
+        <div *ngIf="authSvc.canEdit(user)">
                 <button mat-button mat-button-raised type="submit" [disabled]="!existingProductForm.valid" (click)="updateP()">update</button>
                 <button  title="delete product" (click)="onDelete(product)">x</button>        
-        </div> -->
+        </div>
          </form>
 
     <hr>
-    <button (click)="goBack()">go back</button>
+    <button (click)="goBack()">back</button>
 
 </div>
      

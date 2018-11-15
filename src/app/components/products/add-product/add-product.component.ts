@@ -17,6 +17,7 @@ export class AddProductComponent implements OnInit {
 
   fileUploadQueue: NgForm;
   // renderHtml: String;
+  selectedFile: File = null;
 
   message: string;
   subscription: Subscription;
@@ -26,7 +27,8 @@ export class AddProductComponent implements OnInit {
     productName: new FormControl('', Validators.required),
     quantity: new FormControl('', Validators.min(1)),
     costPrice: new FormControl('', Validators.min(1)),
-    unitPrice: new FormControl('', Validators.min(1))
+    unitPrice: new FormControl('', Validators.min(1)),
+    product_image: new FormControl('')
   });
   get formModel(): any {
     return this.newProduct.get('formModel');
@@ -38,6 +40,15 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit() {
   }
+  // onFileSelected(event) {
+  //   this.selectedFile = <File>event.target.file[0];
+  // }
+  // onUpload() {
+  //   this.tubsSvc.uploadFile().subscribe(res => {
+  //     console.log(res);
+  //   });
+  // }
+
 
   createProduct() {
     const newProductForm = this.newProduct.get('formModel');

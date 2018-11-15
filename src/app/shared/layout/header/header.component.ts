@@ -25,9 +25,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  someMethod() {
-    this.trigger.openMenu();
-  }
+  // someMethod() {
+  //   this.trigger.openMenu();
+  // }
   getAllProducts(): void {
     this.tubsSvc.getProducts()
       .subscribe(result => {
@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
         this.productsArr = result;
       });
     catchError(err => {
-      console.log('caught rethrown error, providing fallback value');
+      console.log('>>>caught rethrown error, providing fallback value');
       return of([]);
     });
   }
@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
   }
   navigateToAddProduct() {
     this.trigger.openMenu();
-    this.router.navigate(['/add-products']);
+    this.router.navigate(['/add-product']);
   }
   navigateToRegister() {
     this.trigger.openMenu();

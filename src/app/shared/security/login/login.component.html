@@ -1,13 +1,21 @@
-<div class="item" flexLayout fxLayoutAlign="center center">
-    <!-- *ngIf="afAuth.user | async as user; else showLogin" -->
-    <div >
-        <!-- <h1>Hello {{ user.displayName }}!</h1> -->
-        <button (click)="logout()">Logout</button>
-    </div>
-    <ng-template #showLogin>
-        Please Login
-        <br>
+<!-- " -->
+<br><br><br><br><br>
+<div *ngIf="authSvc.user | async as user; else showLogin;">
+    <!-- <h1>Hello {{ user.displayName }}!</h1> -->
+    <button (click)="logout()">Logout</button>
+</div>
+
+<ng-template #showLogin>
+    <div>
+
+
         <mat-grid-list cols="3">
+            <mat-grid-tile colspan="2" rowspan="1">
+                <h2>
+                    Please Login
+                </h2>
+            </mat-grid-tile>
+
             <mat-grid-tile colspan="2" rowspan="1">
                 <div>
                     <form class="example-form" [formGroup]="loginForm">
@@ -22,14 +30,15 @@
                 </div>
             </mat-grid-tile>
 
-            <button mat-button color="primary" (click)="loginGoogle()"><i class="fab fa-google-plus fa-3x"></i>&nbsp;
-                Login with Google</button>
-            <button mat-button color="primary" (click)="loginFacebook()"><i class="fab fa-facebook fa-3x"></i>&nbsp;
-                Login with Facebook</button>
-
-            <div>
-                <p>No account yet? <a (click)="navigateToRegister()">Create an account</a></p>
-            </div>
+            <!-- <button mat-button color="primary" (click)="loginGoogle()"><i class="fab fa-google-plus fa-3x"></i>&nbsp;
+                Login with Google</button> -->
+            <!-- <button mat-button color="primary" (click)="loginFacebook()"><i class="fab fa-facebook fa-3x"></i>&nbsp;
+                Login with Facebook</button> -->
+            <mat-grid-tile colspan="2" rowspan="1">
+                <div>
+                    <p>No account yet? <a (click)="navigateToRegister()">Create an account</a></p>
+                </div>
+            </mat-grid-tile>
         </mat-grid-list>
-    </ng-template>
-</div>
+    </div>
+</ng-template>

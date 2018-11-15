@@ -9,7 +9,7 @@ export class Product {
 }
 
 export class EditProduct {
-    id?: string;
+    id: string;
     date_edited: Date;
     productName: any;
     quantity: any;
