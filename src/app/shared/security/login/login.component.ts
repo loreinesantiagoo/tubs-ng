@@ -43,24 +43,25 @@ export class LoginComponent implements OnInit {
         const snackBarRef = this.snackSvc.open('Login Successful!', 'Done', {
           duration: 3000
         });
-        this.router.navigate(['/user']);
+        this.authSvc.setFirebaseTokenToLocalstorage();
+        this.router.navigate(['/users']);
       });
     } else {
       const snackBarRef = this.snackSvc.open('Please Login!', 'Done', {
         duration: 3000
       });
+      this.router.navigate(['/login']);
     }
   }
 
   loginGoogle() {
     this.authSvc.loginWithGoogle();
   }
-  // loginFacebook() {
-  //   this.authSvc.loginWithFacebook();
-  // }
 
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
-
+  navigateToResetPass() {
+    this.router.navigate(['/resetPassword']);
+  }
 }

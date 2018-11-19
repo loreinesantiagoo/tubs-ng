@@ -29,16 +29,16 @@ img {
     width: 160px;
     height: 50px;
 }
-  
+a {
+    text-decoration: none;
+}  
 h1 {
     color: rgb(38, 156, 224);
     font-size: 1.2em;
     margin-bottom: 0;
   
 }
-a {
-    text-decoration: none;
-}
+
 h2 {
     font-size: 2em;
     margin-top: 0;

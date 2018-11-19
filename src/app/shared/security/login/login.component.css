@@ -1,7 +1,21 @@
-.item {
-    display: flex; /* flex or inline-flex */
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: flex-start;
-  }
+.container {
+  display: flex; /* flex or inline-flex */
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: flex-start;
+  height:200px;
+}
+a {
+  text-decoration-color: cornflowerblue;
+}
+.container > * {
+  width: 100%;
+}
+
+.flex-item {
+  padding: 5px;
+  margin-top: 5px;
+  font-weight: normal;
+  text-align: center;
+}

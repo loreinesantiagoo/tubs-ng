@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
 
 
   constructor(private router: Router,
-    private authSvc: AuthService,
+    public authSvc: AuthService,
     private tubsSvc: TubsService) { }
 
   ngOnInit() {
@@ -57,9 +57,9 @@ export class HeaderComponent implements OnInit {
     this.trigger.openMenu();
     this.router.navigate(['/login']);
   }
-  // navigateToResetPassword() {
-  //   this.router.navigate(['/reset-password']);
-  // }
+  navigateToResetPassword() {
+    this.router.navigate(['/resetPassword']);
+  }
   // navigateToChangePassword() {
   //   this.router.navigate(['/change-password']);
   // }

@@ -1,65 +1,61 @@
-<mat-toolbar flexLayout flexLayout="row" fxLayoutAlign="start center"  flexLayout.xs="column" >
-  
-    <a routerLink="/products"><img src="../assets/tubs-logo.png" alt="tubs"></a>
-  
-<!-- afAuth.user | async as user else showLogout -->
-    <!-- <span *ngIf=""> &nbsp; I am login !</span>
-    <ng-template #showLogout>
-      <span> &nbsp; I am logout !</span>
-    </ng-template> -->
+<mat-toolbar flexLayout flexLayout="row" fxLayoutAlign="start center" flexLayout.xs="column">
 
-    <span class="example-spacer"></span>
-    
+  <a routerLink="/products"><img src="../assets/tubs-logo.png" alt="tubs"></a>
+  <!-- 
+  <span *appShowAuthed="false"> &nbsp; I am logout !</span>
+  <span *appShowAuthed="true"> &nbsp; I am login !</span> -->
 
-    <button mat-icon-button [matMenuTriggerFor]="logoutMenu">
+  <span class="example-spacer"></span>
+
+  <!-- <div *ngIf="authSvc.user | async  else logoutMenu;"> -->
+    <button mat-icon-button [matMenuTriggerFor]="appMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
+  <!-- </div> -->
 
-    <mat-menu #logoutMenu="matMenu">
-      <ng-template matMenuContent>
-        <button mat-menu-item (click)="navigateToRegister()">
-          <!-- <mat-icon>note_add</mat-icon> -->
-          <span>Register</span>
-        </button>
+  <mat-menu #appMenu="matMenu">
+    <ng-template matMenuContent>
+      <!-- template for logged in  -->
+      <button mat-menu-item (click)="navigateToAddProduct()">
+        <mat-icon>add_circle</mat-icon>
+        <span>Add Product</span>
+      </button>
 
-        <button mat-menu-item (click)="navigateToLogin()">
-          <!-- <mat-icon>person_pin</mat-icon> -->
-          <span>Login</span>
-        </button>
+      <button mat-menu-item (click)="navigateToResetPassword()">
+        <mat-icon>change_history</mat-icon>
+        <span>Reset Password</span>
+      </button>
 
-        <button mat-menu-item (click)="navigateToProductsList()">
-          <mat-icon>local_mall</mat-icon>
-          <span>Products</span>
-        </button>
-<!-- template for logged in -->
-        <button mat-menu-item (click)="navigateToResetPassword()">
-            <!-- <mat-icon>change_history</mat-icon> -->
-            <span>Reset Password</span>
-          </button>
-  
-          <button mat-menu-item (click)="navigateToAddProduct()">
-            <!-- <mat-icon>add</mat-icon> -->
-            <span>Add Product</span>
-          </button>
-  
-          <button mat-menu-item (click)="navigateToChangePassword()">
-            <!-- <mat-icon>star</mat-icon> -->
-            <span>Change Password</span>
-          </button>
-  
-          <button mat-menu-item (click)="logout()">
-            <!-- <mat-icon>logout</mat-icon> -->
-            <span>Logout</span>
-          </button>
+      <!-- <button mat-menu-item (click)="navigateToChangePassword()">
+        <mat-icon>star</mat-icon>
+        <span>Change Password</span>
+      </button> -->
 
-      </ng-template>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
 <!-- 
-      
-      <ng-template #loginMenu>
-       
+    </ng-template>
 
-      </ng-template> -->
-    </mat-menu>
+    <ng-template #logoutMenu> -->
+      <button mat-menu-item (click)="navigateToRegister()">
+        <mat-icon>account_circle</mat-icon>
+        <span>Register</span>
+      </button>
+
+      <button mat-menu-item (click)="navigateToLogin()">
+        <mat-icon>account_box</mat-icon>
+        <span>Login</span>
+      </button>
+
+      <button mat-menu-item (click)="navigateToProductsList()">
+        <mat-icon>local_mall</mat-icon>
+        <span>Products</span>
+      </button>
+    </ng-template>
+
+  </mat-menu>
 
 </mat-toolbar>
 

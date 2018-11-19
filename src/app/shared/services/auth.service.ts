@@ -33,37 +33,20 @@ export class AuthService {
     private router: Router) {
     //// Get auth data, then get firestore user document || null
     this.afAuth.authState.pipe(
-      switchMap(user => {
-        if (user) {
+      switchMap(authData => {
+        if (authData) {
           // signed in
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+          return this.afs.doc<User>(`users/${authData.uid}`).valueChanges();
         } else {
           // not signed in
           return of(null);
         }
       }))
-      .subscribe((user) => {
-        console.log(user);
-        this.authInfo$.next(user);
+      .subscribe((_authInfo$) => {
+        console.log(this.authInfo$);
+        this.authInfo$.next(_authInfo$);
       });
   }
-  // loginWithFacebook() {
-  //   return new Promise<any>((resolve, reject) => {
-  //     const provider = new firebase.auth.FacebookAuthProvider();
-  //     provider.addScope('profile');
-  //     provider.addScope('email');
-  //     this.afAuth.auth
-  //       .signInWithPopup(provider)
-  //       .then(res => {
-  //         this.updateUserData();
-  //         resolve(res);
-  //       }, err => {
-  //         console.log(err);
-  //         reject(err);
-  //       }
-  //       );
-  //   });
-  // }
 
   loginWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -78,10 +61,8 @@ export class AuthService {
       .signInWithPopup(provider)
       .then((credential) => {
         this.updateUserData(credential.user);
-        // resolve(res);
       }, err => {
-        console.log(err);
-        // reject(err);
+        // console.log(err);
       });
   }
 
@@ -91,21 +72,22 @@ export class AuthService {
   /// updates database with user info after login
   /// only runs if user role is not already defined in database
   private updateUserData(authData) {
-    console.log('call backend end point to update userdata....');
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${authData.uid}`);
 
     const data: User = {
       uid: authData.uid,
       email: authData.email,
-      fullName: authData.fullName,
+      displayName: authData.displayName,
       // photoURL: user.photoURL,
-      roles: { reader: true }
+      roles: { reader: true, admin: true, editor: true }
     };
 
     return userRef.set(data, { merge: true });
   }
-
+  resetPassword(email: string) {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
+  }
 
   signUp(registerUser) {
     return this.fromFirebaseAuthPromise(this.afAuth.auth.createUserWithEmailAndPassword(registerUser.email, registerUser.password))
@@ -143,14 +125,14 @@ export class AuthService {
 
   // determines if user has matching role
   private checkAuth(user: User, allowedRoles: string[]): boolean {
-    if (!user) {
-      return false;
+    if (user) {
       for (const role of allowedRoles) {
         if (user.roles[role]) {
           return true;
+        } else {
+          return false;
         }
       }
-      return false;
     }
   }
 
@@ -179,17 +161,17 @@ export class AuthService {
 
   setFirebaseTokenToLocalstorage() {
     this.afAuth.auth.currentUser.getIdToken().then(idToken => {
-      console.log('FIREBASE TOKEN !!!! ' + idToken);
+      // console.log('FIREBASE TOKEN !!!! ' + idToken);
       this.saveToken(idToken);
     });
   }
 
-  getToken(): String {
+  getIdToken(): String {
     return window.localStorage['firebaseToken'];
   }
 
   saveToken(token: String) {
-    console.log('Firebase token ! > ' + token);
+    // console.log('Firebase token ! > ' + token);
     window.localStorage['firebaseToken'] = token;
   }
 

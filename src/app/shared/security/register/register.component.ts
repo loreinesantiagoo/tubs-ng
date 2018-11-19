@@ -42,14 +42,14 @@ export class RegisterComponent implements OnInit {
     const registerUser: User = {
       email: email,
       password: confirmPassword,
-      fullName: fullName,
+      displayName: fullName,
       roles: this.roles
     };
     /// first hash to the server side
     if (this.registrationForm.valid) {
       this.authSvc.signUp(registerUser).subscribe((result) => {
         // console.log(result);
-        const snackBarRef = this.snackSvc.open('Registration Ok!', 'Done', {
+        const snackBarRef = this.snackSvc.open('Registration Successful!', 'Done', {
           duration: 3000
         });
       });

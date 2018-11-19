@@ -16,6 +16,7 @@ import { NoAuthGuard } from '../shared/services/guards/NoAuthGuard';
 import { AuthGuardService } from '../shared/services/guards/auth-guard.service';
 import { AdminGuard } from '../shared/services/guards/admin.guard';
 import { CanReadGuard } from '../shared/services/guards/can-read.guard';
+import { ResetPasswordComponent } from '../shared/security/reset-password/reset-password.component';
 
 
 const route: Routes = [
@@ -23,6 +24,7 @@ const route: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'users', component: UserComponent }, // resolve: { data: UserResolver}
+  { path: 'resetPassword', component: ResetPasswordComponent },
 
   { path: 'products', component: ProductListComponent },
   { path: 'search-product', component: SearchPipeComponent },

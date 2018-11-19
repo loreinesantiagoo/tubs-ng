@@ -26,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.afAuth.auth.currentUser.getIdToken().then(idToken => {
             console.log(idToken);
-            console.log('getIdToken');
+            console.log('>>>>>>>>getIdToken');
             this.IdToken = idToken;
             this._storageService.set('firebaseIdToken', idToken);
             const headers = new HttpHeaders();

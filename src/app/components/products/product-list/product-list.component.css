@@ -1,26 +1,28 @@
 .example-card {
-    max-width: 400px;
-  }
+ max-width: 400px;
+}
   
-  .example-header-image {
-    background-size: cover;
-  }
-  .mat-icon {
-    color: rgb(31, 105, 218);
-  }
+.example-header-image {
+  background-size: cover;
+}
+.mat-icon {
+  color: rgb(31, 105, 218);
+}
+a {
+ text-decoration: none;
+}  
+.search-pipe {
+  padding: 5px, 5px;
+  margin-top: auto;
+}
+.container {
+  display: flex; /* flex or inline-flex */
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
-  .search-pipe {
-    padding: 5px, 5px;
-    margin-top: auto;
-  }
-  .container {
-    display: flex; /* flex or inline-flex */
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .item {
-    align-self: auto;
-  }
+.item {
+  align-self: auto;
+}

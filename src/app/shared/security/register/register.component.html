@@ -3,25 +3,32 @@
 <br>
 <br>
 <br>
+<div flexLayout fxLayoutAlign="center center" fxLayoutGap="space-evenly">
+    <mat-card>
+        <mat-card-title>
+            <h3>Register</h3>
+        </mat-card-title>
+        <mat-card-content >
+            <form class="container" [formGroup]="registrationForm" >
+                <mat-form-field class="flex-item" appearance="outline">
+                    <input matInput placeholder="email" formControlName="email">
+                </mat-form-field>
+                <mat-form-field class="flex-item" appearance="outline">
+                    <input matInput type="password" placeholder="password" formControlName="password">
+                </mat-form-field>
 
-    <div>
-        <form class="example-form" [formGroup]="registrationForm">
-            <mat-form-field class="example-full-width" appearance="outline">
-                <input matInput placeholder="email" formControlName="email">
-            </mat-form-field>
-            <mat-form-field class="example-full-width" appearance="outline">
-                <input matInput type="password" placeholder="password" formControlName="password">
-            </mat-form-field>
+                <mat-form-field class="flex-item" appearance="outline">
+                    <input matInput type="password" placeholder="confirm password" formControlName="confirmPassword">
+                </mat-form-field>
 
-            <mat-form-field class="example-full-width" appearance="outline">
-                <input matInput type="password" placeholder="confirm password" formControlName="confirmPassword">
-            </mat-form-field>
+                <mat-form-field class="flex-item" appearance="outline">
+                    <input matInput placeholder="Full Name" formControlName="fullName">
+                </mat-form-field>
 
-            <mat-form-field class="example-full-width" appearance="outline">
-                <input matInput placeholder="Full Name" formControlName="fullName">
-            </mat-form-field>
-
-        </form>
-        <button mat-raised-button color="accent" (click)="onSubmit()">Register</button>
-
-    </div>
+            </form>
+        </mat-card-content>
+        <mat-card-actions class="flex-item">
+            <button mat-button color="primary" (click)="onSubmit()" [disabled]="!registrationForm.valid">Submit</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

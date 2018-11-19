@@ -1,44 +1,38 @@
-<!-- " -->
 <br><br><br><br><br>
-<div *ngIf="authSvc.user | async as user; else showLogin;">
-    <!-- <h1>Hello {{ user.displayName }}!</h1> -->
-    <button (click)="logout()">Logout</button>
+<div flexLayout fxLayoutAlign="center center" fxLayoutGap="space-evenly">
+
+    <mat-card >
+        <mat-card-title>
+            <h3>
+                Please Login
+            </h3>
+        </mat-card-title>
+
+        <mat-card-content >
+            <div >
+                <form class="container" [formGroup]="loginForm">
+                    <mat-form-field class="flex-item" appearance="outline">
+                        <input matInput type="email" placeholder="email" formControlName="email">
+                    </mat-form-field>
+                    <mat-form-field class="flex-item" appearance="outline">
+                        <input matInput type="password" placeholder="password" formControlName="password">
+                    </mat-form-field>
+                </form>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions class="flex-item">
+            <button mat-raised-button color="primary" [disabled]="!loginForm.valid" (click)="onSubmit()">Login</button>
+            <button mat-button (click)="navigateToResetPass()">Forgot Password?</button>
+
+            <button mat-button color="primary" (click)="loginGoogle()"><i class="fab fa-google-plus fa-3x"></i>&nbsp;
+                Login with Google</button>
+                
+            <div>
+                <p>No account yet? <a (click)="navigateToRegister()">Create an account.</a></p>
+            </div>
+        </mat-card-actions>
+
+    </mat-card>
+
 </div>
-
-<ng-template #showLogin>
-    <div>
-
-
-        <mat-grid-list cols="3">
-            <mat-grid-tile colspan="2" rowspan="1">
-                <h2>
-                    Please Login
-                </h2>
-            </mat-grid-tile>
-
-            <mat-grid-tile colspan="2" rowspan="1">
-                <div>
-                    <form class="example-form" [formGroup]="loginForm">
-                        <mat-form-field class="example-full-width" appearance="outline">
-                            <input matInput placeholder="email" formControlName="email">
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width" appearance="outline">
-                            <input matInput type="password" placeholder="password" formControlName="password">
-                        </mat-form-field>
-                    </form>
-                    <button mat-raised-button color="primary" (click)="onSubmit()">Login</button>
-                </div>
-            </mat-grid-tile>
-
-            <!-- <button mat-button color="primary" (click)="loginGoogle()"><i class="fab fa-google-plus fa-3x"></i>&nbsp;
-                Login with Google</button> -->
-            <!-- <button mat-button color="primary" (click)="loginFacebook()"><i class="fab fa-facebook fa-3x"></i>&nbsp;
-                Login with Facebook</button> -->
-            <mat-grid-tile colspan="2" rowspan="1">
-                <div>
-                    <p>No account yet? <a (click)="navigateToRegister()">Create an account</a></p>
-                </div>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </div>
-</ng-template>
