@@ -5,7 +5,7 @@
 
     <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
 
-    <ul class="search-result">
+    <ul class="search-result"> 
       <li *ngFor="let p of products$ | async">
         <a routerLink="{{p.product_data.productName}}">
           {{p.product_data.productName}}
