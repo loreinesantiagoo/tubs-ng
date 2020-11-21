@@ -27,6 +27,7 @@
     "@angular/router": "^11.0.2",
     "core-js": "^3.7.0",
     "firebase": "^5.5.7",
+    "grpc": "^1.24.4",
     "hammerjs": "^2.0.8",
     "ngx-localstorage": "^2.2.1",
     "ngx-newsticker-albe": "^2.0.0",
@@ -36,7 +37,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1100.2",
-    "@angular/cli": "~6.1.5",
+    "@angular/cli": "~11.0.2",
     "@angular/compiler-cli": "^11.0.2",
     "@angular/language-service": "^6.1.10",
     "@types/jasmine": "^3.6.2",
@@ -55,7 +56,19 @@
     "rxjs-tslint": "^0.1.8",
     "ts-node": "~5.0.1",
     "tslint": "^6.1.3",
-    "typescript": "^3.9",
+    "typescript": "^4.0.5",
     "webpack": "^5.6.0"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loreinesantiagoo/tubs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loreinesantiagoo/tubs/issues"
+  },
+  "homepage": "https://github.com/loreinesantiagoo/tubs#readme"
 }
