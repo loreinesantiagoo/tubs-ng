@@ -1,6 +1,6 @@
+
+import {throwError as observableThrowError,  Observable, Subject, BehaviorSubject, ReplaySubject, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject, ReplaySubject, of } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AuthInfo } from '../models/auth-info';
 import { Router } from '@angular/router';
@@ -183,7 +183,7 @@ export class AuthService {
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(JSON.stringify(error));
-      return Observable.throw(error || 'backend server error');
+      return observableThrowError(error || 'backend server error');
     };
   }
 }
